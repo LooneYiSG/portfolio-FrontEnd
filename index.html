@@ -1,3 +1,175 @@
-<h1>
-    Mi Portfolio
-</h1>
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta name="author" content="Samuel Verazay"/>
+        <meta charset="UTF-8"/>
+        <link href="./dist/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+        <link href="./style.css" rel="stylesheet"/>
+        <script src="https://kit.fontawesome.com/8dad659efb.js" crossorigin="anonymous"></script>
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <div class="d-flex justify-content-center">
+            <div>
+                <div class="sheet-head">
+                    <div class="row" style="min-height: 50px;max-height: 50px;">
+                        <div class="col  d-flex align-items-center">
+                            <p class="fs-5" style="margin-bottom:0;">Bienvenido</p>
+                        </div>
+                        <div class="col d-flex align-items-center justify-content-center">
+                            <img src="https://t3.ftcdn.net/jpg/03/05/96/10/240_F_305961049_jSajJ37lNv4RwnTZEXKpFfHlKGSqg8gF.jpg" alt="logo" style="border-radius: 50%;width: 40px;height: 40px;">
+                        </div>
+                        <div class="col d-flex align-items-center justify-content-end me-3">
+                                <button class="btn btn-light" onclick="loginDisplay(true)">Login</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet">
+                    <div class="profile">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-3">
+                                <div class="photo">
+                                    <img style="width: 200px;height: 200px;" src="https://isggaming.com/uploads/monthly_2020_05/logo.png.af0b2db7ceb7a85830d71b52b03dffd4.png">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="sheety">
+                                    <div class="row text-center border-bottom border-dark">
+                                        <h1 id="text-name">Nombre</h1>
+                                        <input id="edit-name" type="text" oninput="setText('text-name',this.value)" style="margin: 5px 0px;display: none;">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p style="margin-bottom: 16px;">Edad:<span id="text-age"></span></p>
+                                            <input id="edit-age" type="text" oninput="setText('text-age',this.value)" style="display: none;">
+                                        </div>
+                                        <div class="col">
+        
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p style="margin-bottom: 16px;">Idioma:<span id="text-lan"></span></p>
+                                            <input id="edit-lan" type="text" oninput="setText('text-lan',this.value)" style="display: none;">
+                                        </div>
+                                        <div class="col"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p style="margin-bottom: 16px;">Localidad:<span id="text-adrss"></span></p>
+                                            <input id="edit-adrss" type="text" oninput="setText('text-adrss',this.value)" style="display: none;">
+                                        </div>
+                                        <div class="col"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p style="margin-bottom: 16px;">Nacionalidad:<span id="text-country"></span></p>
+                                            <input id="edit-country" type="text" oninput="setText('text-country',this.value)" style="display: none;">
+                                        </div>
+                                        <div class="col"></div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button id="btn-save-profile" type="button" class="btn btn-outline-success me-1" style="display: none;" onclick="doneEdit(['edit-name','edit-age','edit-lan','edit-adrss','edit-country','btn-save-profile','btn-unsave-profile'],'btn-edit-profile')">Guardar</button>
+                            <button id="btn-unsave-profile" type="button" class="btn btn-outline-danger" style="display: none;" onclick="doneEdit(['edit-name','edit-age','edit-lan','edit-adrss','edit-country','btn-save-profile','btn-unsave-profile'],'btn-edit-profile')">Cancelar</button>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <div id="btn-edit-profile" class="btn-edit" onclick="editText(['edit-name','edit-age','edit-lan','edit-adrss','edit-country','btn-save-profile','btn-unsave-profile'],'btn-edit-profile')">
+                                <a href="#" class="btn-right">
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about">
+                        <div class="row">
+                            <div class="row">
+                                <h1 class="border-bottom border-dark" style="margin-left:20px;max-width: 860px;">Acerca de mi</h1>
+                            </div>
+                            <div class="row">
+                                <p id="text-about">Loem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus mollitia excepturi deserunt doloremque. Laudantium excepturi pariatur quo earum incidunt nobis placeat itaque et, blanditiis nemo voluptate error quasi consequuntur voluptatem voluptas nesciunt quae rem ratione distinctio omnis tenetur eligendi nam quibusdam tempora! Fuga dolor incidunt temporibus. Ducimus possimus aliquam unde ipsam nihil modi earum officia ab corporis ad esse dolor beatae itaque porro vitae molestiae, exercitationem aliquid architecto excepturi. Eligendi, voluptate in accusantium quasi nobis totam voluptatem soluta, incidunt aut sed pariatur ipsum veniam nihil unde. Asperiores sunt error nulla voluptates, et facilis ab nostrum! Fuga aliquam dolores repellendus omnis?</p>
+                                <input id="edit-about" type="text" oninput="setText('text-about',this.value)" style="margin:0px 12px;display: none;width: 100%;">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-1">
+                            <button id="btn-save-about" type="button" class="btn btn-outline-success me-1" style="display: none;" onclick="doneEdit(['edit-about','btn-save-about','btn-unsave-about'],'btn-edit-about')">Guardar</button>
+                            <button id="btn-unsave-about" type="button" class="btn btn-outline-danger" style="display: none;" onclick="doneEdit(['edit-about','btn-save-about','btn-unsave-about'],'btn-edit-about')">Cancelar</button>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <div id="btn-edit-about" class="btn-edit" onclick="editText(['edit-about','btn-save-about','btn-unsave-about'],'btn-edit-about')">
+                                <a href="#" class="btn-right">
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="education">
+                        <div class="row">
+                            <h1 class="border-bottom border-dark" style="margin-left:20px;max-width: 860px;">Educación</h1>
+                        </div>
+                        <div class="row">
+                            <h3>UTN-FRT</h3>
+                            <h5>Universidad Tecnologica Nacional - Facultad Regional de Tucuman</h5>
+                            <h6>Ingenieria en Sistemas de Informacion</h6>
+                            <h6 class="small">2020-2023</h6>
+                        </div>
+                    </div>
+                    <div class="experience">
+                        <div class="row">
+                            <h1 class="border-bottom border-dark" style="margin-left:20px;max-width: 860px;">Experiencia</h1>
+                        </div>
+                        <div class="row">
+        
+                        </div>
+                    </div>
+                    <div class="projects">
+                        <div class="row">
+                            <h1 class="border-bottom border-dark" style="margin-left:20px;max-width: 860px;">Proyectos</h1>
+                        </div>
+                        <div class="row">
+        
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet-footer">
+                        <div class="row d-flex align-items-center" style="height: 50px;">
+                            <div class="col">
+                                <p class="ms-3" style="margin: 0;">&copy; Copyright - Todos los derechos reservados.</p>
+                            </div>
+                            <div class="col">
+                                <div class="row d-flex align-items-center justify-content-end me-3" style="height: 50px;">
+                                    <div class="col-1">
+                                        <div><a href="https://www.facebook.com/samuel.verazay.m"><i class="fa fa-facebook"></i></a></div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div><a href="https://www.instagram.com/samuelv_chino/"><i class="fa fa-instagram"></i></a></div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div><a href="https://www.youtube.com/channel/UCAdLuO1f8CUYZD04Ldwb3Bg"><i class="fa fa-youtube"></i></a></div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div><a href="https://github.com/LooneYiSG"><i class="fa fa-github"></i></a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div id="login" class="login" style="display: none;">
+            <div class="login-box">
+                <h1>Login</h1>
+                <label for="user">Usuario</label>
+                <input id="username" type="text" placeholder="Usuario">
+                <label for="pass">Contraseña</label>
+                <input id="password" type="password" placeholder="Contraseña">
+                <input type="submit" value="Log in" onclick="sendLoginData()">
+                <a href="#"><p style="margin:0; margin-bottom:10px;">No tienes cuenta? Registrate</p></a>
+                <a href="#"><p style="margin:0; margin-bottom:0px;">Olvidaste tu contraseña?</p></a>
+            </div>
+        </div>
+        <script src="dist/bootstrap/js/bootstrap.bundle.js"></script>
+    </body>
+</html>

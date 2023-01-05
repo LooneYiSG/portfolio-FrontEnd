@@ -1,0 +1,242 @@
+/** {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+}
+
+h1 {
+    color: white;
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+}
+
+.logo.start {
+    animation-name: logo-start;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes logo-start {
+    0% {
+        left:0; top: 0; width: 384px; height:384px;
+    }
+    50% {
+        left: 0.5em; top:0; width: 350px; height: 350px;
+    }
+    100% {
+        left:0; top:0; width: 384px; height:384px;
+    } 
+}*/
+
+/*body{
+    background-color: black;
+}
+
+header {
+    height: 50px;
+}
+
+.logo{
+    width: 45px;
+    height: 45px;
+    float:left;
+}
+
+.meet {
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:large;
+    color:whitesmoke;
+}
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+h3 {
+    color: white;
+}
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: small;
+    font-weight: lighter;
+    color: white;
+}
+
+p.smooth {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: smaller;
+    font-weight: lighter;
+    color: #888;
+}
+
+footer {
+    width: 100%;
+    background-color: black;
+}
+
+footer .grupo-1 {
+    width: 100%;
+    max-width: 1200px;
+    margin:auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 50px;
+    padding: 45px , 0px;
+}*/
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: black;
+}
+
+.login{
+    width: 300px;
+    height: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: black;
+    color: white;
+    position: absolute;
+    border-radius: 10px;
+}
+
+.login-box{
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.login-box h1{
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.login-box label{
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    text-align: left;
+    font-weight: bold;
+}
+
+.login-box input{
+    margin: 0 10px 20px 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.login-box input[type="text"], .login-box input[type="password"]{
+    border: none;
+    border-bottom: 1px solid white;
+    background: transparent;
+    font-size: 20px;
+    font-weight: lighter;
+    color: white;
+    outline: none;
+}
+
+.login-box input[type="submit"]{
+    margin-top: 0px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.login-box input[type="submit"]:hover{
+    opacity: 0.5;
+}
+
+.login-box input[type="submit"]:active{
+    background-color: grey;
+}
+
+.login-box a{
+    text-decoration: none;
+}
+
+#btn-edit-profile, #btn-edit-about{
+    display: none;
+}
+
+.sheet-head{
+    background-color: grey;
+    max-width: 900px;
+    min-width: 900px;
+    max-height: 50px;
+    min-height: 50px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin: 0px 30px;
+    opacity: 0.9;
+    color: black;
+}
+
+.sheet{
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    max-width: 900px;
+    min-width: 900px;
+    min-height: 100vh;
+    margin: 10px 30px;
+    padding: 10px 10px;
+    opacity: 0.9;
+    color: black;
+}
+
+.sheet-footer{
+    background-color: grey;
+    max-width: 900px;
+    min-width: 900px;
+    max-height: 50px;
+    min-height: 50px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin: 0px 30px;
+    opacity: 0.9;
+    color: black;
+}
+
+.sheety{
+    /*background-color: whitesmoke;*/
+    /*border: 1px solid black;
+    border-radius: 10px;*/
+    max-width: 900px;
+    max-height: 500px;
+    padding: 0px 10px;
+}
+
+.profile .photo{
+    background-color: black;
+    border-radius: 50%;
+    border-color: black;
+    border-width: 2px;
+    width: 200px;
+    height: 200px;
+}
+
+.about{
+    margin-top:50px;
+}
