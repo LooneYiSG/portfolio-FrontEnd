@@ -1,0 +1,28 @@
+.header{
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-bottom-right-radius: 30px;
+    box-shadow: 1px 1px 30px black;
+}
+
+.navbar-custom {  
+    background-color: black;
+    color: white;  
+} 
+
+.navbar-custom .navbar-nav a,
+.navbar-custom .navbar-toggler{ 
+    color: white;  
+}  
+
+.navbar-custom .navbar-toggler-icon,
+.navbar-custom .navbar-toggler{
+    background-color: aliceblue; 
+    color: white;  
+}
+.navbar-custom .navbar-nav button{
+    background-color: transparent;
+    color: white;
+    border: none;
+}  
