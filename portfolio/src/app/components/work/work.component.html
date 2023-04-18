@@ -17,12 +17,13 @@
             <div class="accordion-item" *ngFor="let work of workList">
               <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#panelsStayOpen-collapseOne'+work.id" aria-expanded="false" aria-controls="'panelsStayOpen-collapseOne'">
-                    {{work.title}}
+                    {{work.institucion}} - {{work.cargo}}
+                    <div class="fecha ms-3">{{work.fecha_desde}} - {{work.fecha_hasta}}</div>
                 </button>
               </h2>
               <div id="panelsStayOpen-collapseOne{{work.id}}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
                 <div class="accordion-body">
-                  {{work.description}}
+                  {{work.descripcion}}
                 </div>
               </div>
             </div>
@@ -38,12 +39,36 @@
         <h5 class="modal-title" id="exampleModalLabel">Añadir Experiencia Laboral</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="institucion">
+        <div class="nombre p-3">
+          <form class="form-floating">
+            <input type="text" class="form-control" placeholder="pepito" [attr.value]="">
+            <label>Institucion</label>
+          </form>
+        </div>
+      </div>
       <div class="titulo">
         <div class="nombre p-3">
           <form class="form-floating">
-            <input type="email" class="form-control" placeholder="pepito" [attr.value]="">
+            <input type="text" class="form-control" placeholder="pepito" [attr.value]="">
             <label>Cargo laboral</label>
           </form>
+        </div>
+      </div>
+      <div class="date">
+        <div class="fechas p-3">
+          <div class="ingreso me-5 d-inline-flex">
+            <form class="form-floating">
+              <input type="date" class="form-control">
+              <label>Fecha de desde</label>
+            </form>
+          </div>
+          <div class="egreso d-inline-flex">
+            <form class="form-floating">
+              <input type="date" class="form-control">
+              <label>Fecha de hasta</label>
+            </form>
+          </div>
         </div>
       </div>
       <div class="description">

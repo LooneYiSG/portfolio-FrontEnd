@@ -1,7 +1,7 @@
 <div id="Projects" class="proyectos">
     <div class="Titulo fs-3 mt-3">
         <div class="d-inline-flex">
-          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editWorkPanel" style="display: block;">
+          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editProjectPanel" style="display: block;">
             <i class="fa fa-pen"></i>
           </a>
         </div>
@@ -29,21 +29,21 @@
               <div *ngFor="let project of projectsList;index as i">
                 <div *ngIf="i == 0;else elseBlock">
                   <div class="carousel-item active" data-bs-interval="3000">
-                    <img src="{{project.img}}" 
+                    <img src="{{project.foto}}" 
                     class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
-                      <h5>{{project.name}}</h5>
-                      <p>{{project.description}}</p>
+                      <h5>{{project.nombre}}</h5>
+                      <p>{{project.descripcion}}</p>
                     </div>
                   </div>
                 </div>
                 <ng-template #elseBlock>
                   <div class="carousel-item" data-bs-interval="3000">
-                    <img src="{{project.img}}" 
+                    <img src="{{project.foto}}" 
                     class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
-                      <h5>{{project.name}}</h5>
-                      <p>{{project.description}}</p>
+                      <h5>{{project.nombre}}</h5>
+                      <p>{{project.descripcion}}</p>
                     </div>
                   </div>
                 </ng-template>

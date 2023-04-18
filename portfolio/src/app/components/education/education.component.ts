@@ -1,5 +1,6 @@
-import { ArrayType } from '@angular/compiler';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Educacion } from 'src/app/entities/educacion';
+import { EducationService } from 'src/app/services/education.service';
 
 @Component({
   selector: 'app-education',
@@ -7,12 +8,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./education.component.css']
 })
 
-export class EducationComponent {
-  eduList: Array<any> = [
-    ["Escuela Publica Monteagudo","descriptions","https://i.imgur.com/eACn3Nb.jpeg"],
-    ["Instituto Dr. Carlos Pellegrini - Nivel Primario","descriptions","https://i.imgur.com/jNNBvoS.jpeg"],
-    ["Instituto Dr. Carlos Pellegrini - Nivel Secundario","descriptions","https://i.imgur.com/GLjSdeH.jpeg"],
-    ["Universidad Tecnológica Nacional – Facultad Regional de Tucumán","descriptions","https://i.imgur.com/dAvWkN8.jpeg"]
-  ]
+export class EducationComponent implements OnInit {
+  
+  eduList: Educacion[] = [];
+
+  constructor(private EducationService:EducationService){}
+
+  ngOnInit(): void {
+    this.getInstitutionList();
+  }
+
+  getInstitutionList(): void{
+    this.EducationService.getInstituciones().subscribe(eduList => this.eduList = eduList );
+  }
 
 }

@@ -8,14 +8,14 @@
         <div class="row g-0">
           <div class="col-md-4 d-flex align-items-center justify-content-center">
             <div class="d-flex align-items-center justify-content-center mb-2 mt-2 image-cropper">
-              <img src="{{profile.img}}" 
+              <img src="{{perfil.foto}}" 
             alt="Foto de Perfil">
             </div>
           </div>
           <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title">{{profile.name}}</h5>
-                <p>{{profile.about}}</p>
+                <h5 class="card-title">{{perfil.nombre}} {{perfil.apellido}}</h5>
+                <p>{{perfil.sobre_mi}}</p>
                 <!--<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
             </div>
           </div>
@@ -38,16 +38,20 @@
         </div>
       </div>
       <div class="nombre ps-3 pe-3">
-        <form class="form-floating">
-          <input type="email" class="form-control" id="floatingInputValue" placeholder="pepito" [attr.value]="profile.name">
-          <label for="floatingInputValue">Nombre completo</label>
+        <form class="form-floating d-inline-flex w-50 mb-3">
+          <input type="text" class="form-control" id="floatingInputValue" placeholder="pepito" [attr.value]="perfil.nombre">
+          <label for="floatingInputValue">Nombre</label>
+        </form>
+        <form class="form-floating w-50">
+          <input type="text" class="form-control" id="floatingInputValue2" placeholder="pepito" [attr.value]="perfil.apellido">
+          <label for="floatingInputValue2">Apellido</label>
         </form>
       </div>
       <div class="sobreMi">
         <div class="modal-body">
           <div class="form-floating">
             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"
-            >{{profile.about}}</textarea>
+            >{{perfil.sobre_mi}}</textarea>
             <label for="floatingTextarea2">Sobre mi</label>
           </div>
         </div>

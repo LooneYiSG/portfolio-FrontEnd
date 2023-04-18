@@ -1,14 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ExpLaboral } from 'src/app/entities/exp-laboral';
+import { WorkService } from 'src/app/services/work.service';
 
 @Component({
   selector: 'app-work',
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.css']
 })
-export class WorkComponent {
-  workList: Array<any> = [
-    {"id": "1", "title": "Web Developer","description": "Description"},
-    {"id": "2", "title": "Your Market","description": "Description"},
-    {"id": "3", "title": "Microsoft Developer","description": "Description"},
-  ];
+export class WorkComponent implements OnInit {
+
+  workList: ExpLaboral[] = [];
+
+  constructor(private WorkService: WorkService){}
+
+  ngOnInit(): void {
+    this.getWorkList();
+  }
+
+  getWorkList():void{
+    this.WorkService.getWorkList().subscribe(workList => this.workList = workList);
+  }
+
 }

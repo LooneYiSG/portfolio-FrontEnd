@@ -1,14 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Proyecto } from 'src/app/entities/proyecto';
+import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
-export class ProjectsComponent {
-  projectsList: Array<any> = [
-    {"id": "1", "name": "Project Marketplace", "description": "Project Description", "img":"https://i.imgur.com/qyRiisO.jpeg"},
-    {"id": "2", "name": "Project Microsoft", "description": "Project Description", "img":"https://i.imgur.com/qyRiisO.jpeg"},
-    {"id": "3", "name": "Project Artificial Intelligence", "description": "Project Description", "img":"https://i.imgur.com/qyRiisO.jpeg"},
-  ]
+export class ProjectsComponent implements OnInit {
+
+  projectsList: Proyecto[] = [];
+
+  constructor(private ProjectService: ProjectService){}
+
+  ngOnInit(): void {
+    this.getProjectList();
+  }
+
+  getProjectList(): void {
+    this.projectsList = this.ProjectService.getProjectList();
+  }
+
 }
