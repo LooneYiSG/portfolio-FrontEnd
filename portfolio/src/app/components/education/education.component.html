@@ -1,13 +1,13 @@
 <div id="Education" class="education fs-3">
     <div class="Titulo">
         <div class="d-inline-flex">
-          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editWorkPanel" style="display: block;">
+          <a class="btn-right" data-bs-toggle="modal" data-bs-target="#modaPanel" style="display: block;" (click)="changeAction(2)">
             <i class="fa fa-pen"></i>
           </a>
         </div>
         EDUCACIÓN
         <div class="d-inline-flex">
-          <a class="btn-right" data-bs-toggle="modal" data-bs-target="#addEducationPanel" style="display: block;">
+          <a class="btn-right" data-bs-toggle="modal" data-bs-target="#modaPanel" style="display: block;" (click)="changeAction(1)">
             <i class="fa fa-plus"></i>
           </a>
         </div>
@@ -15,6 +15,9 @@
     <div class="row row-cols-1 row-cols-md-2 g-4">
       <div class="col" *ngFor="let educations of eduList">
         <div class="card">
+          <div class="d-flex justify-content-end">
+            <a type="button" class="btn btn-danger delete-btn" (click)="deleteInstitution(educations.id)"><i class="fa fa-trash"></i></a>
+          </div>
           <img src="{{educations.foto}}" 
           class="card-img-top" alt="...">
           <div class="card-body">
@@ -27,99 +30,74 @@
     </div>
 </div>
 
-<!-- Modal Add-->
-<div class="modal fade" id="addEducationPanel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="modaPanel" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Añadir Institucion</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 *ngIf="action == 1" class="modal-title" >Añadir Institucion</h5>
+        <h5 *ngIf="action == 2" class="modal-title" >Editar Institucion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearInstitution()"></button>
       </div>
-      <div class="photo">
-        <div class="nombre p-3">
-          <form class="form-floating">
-            <input type="text" class="form-control" placeholder="pepito" [attr.value]="">
-            <label>URL de la Foto</label>
-          </form>
-        </div>
-      </div>
-      <div class="name">
-        <div class="nombre p-3">
-          <form class="form-floating">
-            <input type="text" class="form-control" placeholder="pepito" [attr.value]="">
-            <label>Nombre de la Institucion</label>
-          </form>
-        </div>
-      </div>
-      <div class="date">
-        <div class="fechas p-3">
-          <div class="ingreso me-5 d-inline-flex">
-            <form class="form-floating">
-              <input type="date" class="form-control">
-              <label>Fecha de ingreso</label>
-            </form>
-          </div>
-          <div class="egreso d-inline-flex">
-            <form class="form-floating">
-              <input type="date" class="form-control">
-              <label>Fecha de egreso</label>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="description">
-        <div class="modal-body">
-          <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"
-            ></textarea>
-            <label for="floatingTextarea2">Descripcion</label>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" onclick="addEducation()">Guardar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Modal Edit-->
-<div class="modal fade" id="editEducationPanel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel2">Modificar Institucion</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="photo">
-        <div class="nombre p-3">
-          <form class="form-floating">
-            <input type="email" class="form-control" placeholder="pepito" [attr.value]="">
-            <label>URL de la Foto</label>
-          </form>
+      <div class="modal-body">
+
+        <div *ngIf="action == 2" class="seleccion p-3">
+          <select id="selectEdu" #selectEdu class="form-select form-select-sm" aria-label=".form-select-sm example" (click)="selectedMenu(selectEdu.value)">
+            <option value = "-1" selected>Seleccionar Institucion</option>
+            <option *ngFor="let option of eduList; index as i" type="number" value="{{i}}">{{option.institucion}}</option>
+          </select>
         </div>
-      </div>
-      <div class="name">
-        <div class="nombre p-3">
-          <form class="form-floating">
-            <input type="email" class="form-control" placeholder="pepito" [attr.value]="">
-            <label>Nombre de la Institucion</label>
-          </form>
-        </div>
-      </div>
-      <div class="description">
-        <div class="modal-body">
-          <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea3" style="height: 100px"
-            ></textarea>
-            <label for="floatingTextarea2">Descripcion</label>
+
+        <div class="photo">
+          <div class="nombre p-3">
+            <div class="form-floating">
+              <input type="text" #fotoi class="form-control" placeholder="pepito" [(ngModel)]="Institution.foto">
+              <label>URL de la Foto</label>
+            </div>
           </div>
         </div>
-      </div>
+
+        <div class="name">
+          <div class="nombre p-3">
+            <div class="form-floating">
+              <input type="text" class="form-control" placeholder="pepito" [(ngModel)]="Institution.institucion">
+              <label for="namei">Nombre de la Institucion</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="date">
+          <div class="fechas p-3">
+            <div class="ingreso me-5 d-inline-flex">
+              <div class="form-floating">
+                <input type="date" class="form-control" name="ingreso" [(ngModel)]="Institution.fecha_ingreso">
+                <label for="fechai">Fecha de ingreso</label>
+              </div>
+            </div>
+            <div class="egreso d-inline-flex">
+              <div class="form-floating">
+                <input type="date" class="form-control" name="egreso" [(ngModel)]="Institution.fecha_egreso">
+                <label for="fechae">Fecha de egreso</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="description">
+            <div class="form-floating">
+              <textarea class="form-control" placeholder="Leave a comment here"  style="height: 100px" [(ngModel)]="Institution.descripcion"
+              ></textarea>
+              <label for="desci">Descripcion</label>
+            </div>
+        </div>
+
+      </div>  
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" onclick="addEducation()">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearInstitution()">Cerrar</button>
+        <button *ngIf="action == 1" type="button" class="btn btn-primary" (click)="addInstitution()">Agregar</button>
+        <button *ngIf="action == 2" type="button" class="btn btn-primary" (click)="editInstitution()">Editar</button>
       </div>
     </div>
   </div>

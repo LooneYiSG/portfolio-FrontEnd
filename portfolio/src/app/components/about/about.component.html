@@ -8,14 +8,14 @@
         <div class="row g-0">
           <div class="col-md-4 d-flex align-items-center justify-content-center">
             <div class="d-flex align-items-center justify-content-center mb-2 mt-2 image-cropper">
-              <img src="{{perfil.foto}}" 
+              <img src="{{Perfil.foto}}" 
             alt="Foto de Perfil">
             </div>
           </div>
           <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title">{{perfil.nombre}} {{perfil.apellido}}</h5>
-                <p>{{perfil.sobre_mi}}</p>
+                <h5 class="card-title">{{Perfil.nombre}} {{Perfil.apellido}}</h5>
+                <p>{{Perfil.sobre_mi}}</p>
                 <!--<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
             </div>
           </div>
@@ -39,11 +39,11 @@
       </div>
       <div class="nombre ps-3 pe-3">
         <form class="form-floating d-inline-flex w-50 mb-3">
-          <input type="text" class="form-control" id="floatingInputValue" placeholder="pepito" [attr.value]="perfil.nombre">
+          <input type="text" class="form-control" id="floatingInputValue" placeholder="pepito" [attr.value]="Perfil.nombre">
           <label for="floatingInputValue">Nombre</label>
         </form>
         <form class="form-floating w-50">
-          <input type="text" class="form-control" id="floatingInputValue2" placeholder="pepito" [attr.value]="perfil.apellido">
+          <input type="text" class="form-control" id="floatingInputValue2" placeholder="pepito" [attr.value]="Perfil.apellido">
           <label for="floatingInputValue2">Apellido</label>
         </form>
       </div>
@@ -51,7 +51,7 @@
         <div class="modal-body">
           <div class="form-floating">
             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"
-            >{{perfil.sobre_mi}}</textarea>
+            >{{Perfil.sobre_mi}}</textarea>
             <label for="floatingTextarea2">Sobre mi</label>
           </div>
         </div>

@@ -1,29 +1,30 @@
 <div id="Exp" class="experienciaLaboral">
     <div class="Titulo fs-3 mt-3">
       <div class="d-inline-flex">
-        <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editWorkPanel" style="display: block;">
+        <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editWorkPanel" style="display: block;" (click)="changeAction(2)">
           <i class="fa fa-pen"></i>
         </a>
       </div>
         EXPERIENCIA LABORAL
         <div class="d-inline-flex">
-          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editWorkPanel" style="display: block;">
+          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editWorkPanel" style="display: block;" (click)="changeAction(1)">
             <i class="fa fa-plus"></i>
           </a>
         </div>
     </div>
     <div class="card">
         <div class="accordion" id="accordionPanelsStayOpenExample">
-            <div class="accordion-item" *ngFor="let work of workList">
+            <div class="accordion-item" *ngFor="let works of workList; index as i">
               <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#panelsStayOpen-collapseOne'+work.id" aria-expanded="false" aria-controls="'panelsStayOpen-collapseOne'">
-                    {{work.institucion}} - {{work.cargo}}
-                    <div class="fecha ms-3">{{work.fecha_desde}} - {{work.fecha_hasta}}</div>
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#panelsStayOpen-collapseOne'+i" aria-expanded="false" aria-controls="'panelsStayOpen-collapseOne'">
+                  <a type="button" class="btn btn-danger delete-btn" style="position: relative;" (click)="deleteWork(works.id)"><i class="fa fa-trash"></i></a>  
+                  {{works.institucion}} - {{works.cargo}}
+                    <div class="fecha ms-3">{{works.fecha_desde}} - {{works.fecha_hasta}}</div>
                 </button>
               </h2>
-              <div id="panelsStayOpen-collapseOne{{work.id}}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+              <div id="panelsStayOpen-collapseOne{{i}}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
                 <div class="accordion-body">
-                  {{work.descripcion}}
+                  {{works.descripcion}}
                 </div>
               </div>
             </div>
@@ -32,57 +33,76 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="editWorkPanel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editWorkPanel" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Añadir Experiencia Laboral</h5>
+        <h5 *ngIf="action == 1" class="modal-title">Añadir Experiencia Laboral</h5>
+        <h5 *ngIf="action == 2" class="modal-title">Editar Experiencia Laboral</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="institucion">
-        <div class="nombre p-3">
-          <form class="form-floating">
-            <input type="text" class="form-control" placeholder="pepito" [attr.value]="">
-            <label>Institucion</label>
-          </form>
+
+      <div class="modal-body">
+
+        <div *ngIf="action == 2" class="seleccion p-3">
+          <select id="selectWork" #selectWork class="form-select form-select-sm" aria-label=".form-select-sm example" (click)="selectedMenu(selectWork.value)">
+            <option value = "-1" selected>Seleccionar Institucion</option>
+            <option *ngFor="let option of workList; index as i" type="number" value="{{i}}">{{option.institucion}}</option>
+          </select>
         </div>
-      </div>
-      <div class="titulo">
-        <div class="nombre p-3">
-          <form class="form-floating">
-            <input type="text" class="form-control" placeholder="pepito" [attr.value]="">
-            <label>Cargo laboral</label>
-          </form>
-        </div>
-      </div>
-      <div class="date">
-        <div class="fechas p-3">
-          <div class="ingreso me-5 d-inline-flex">
-            <form class="form-floating">
-              <input type="date" class="form-control">
-              <label>Fecha de desde</label>
-            </form>
-          </div>
-          <div class="egreso d-inline-flex">
-            <form class="form-floating">
-              <input type="date" class="form-control">
-              <label>Fecha de hasta</label>
-            </form>
+
+        <div class="institucion">
+          <div class="nombre p-3">
+            <div class="form-floating">
+              <input type="text" class="form-control" placeholder="pepito" [(ngModel)]="Work.institucion">
+              <label>Institucion</label>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="description">
-        <div class="modal-body">
-          <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"
-            ></textarea>
-            <label for="floatingTextarea2">Descripcion</label>
+
+        <div class="titulo">
+          <div class="nombre p-3">
+            <div class="form-floating">
+              <input type="text" class="form-control" placeholder="pepito" [(ngModel)]="Work.cargo">
+              <label>Cargo laboral</label>
+            </div>
           </div>
         </div>
+
+        <div class="date">
+          <div class="fechas p-3">
+            <div class="ingreso me-5 d-inline-flex">
+              <div class="form-floating">
+                <input type="date" class="form-control" [(ngModel)]="Work.fecha_desde">
+                <label>Fecha de desde</label>
+              </div>
+            </div>
+            <div class="egreso d-inline-flex">
+              <div class="form-floating">
+                <input type="date" class="form-control" [(ngModel)]="Work.fecha_hasta">
+                <label>Fecha de hasta</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="description">
+            <div class="descripcion p-3">
+              <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="descw" style="height: 100px" [(ngModel)]="Work.descripcion"
+                ></textarea>
+                <label for="descw">Descripcion</label>
+              </div>
+            </div>
+        </div>
+
       </div>
+      
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" onclick="addEducation()">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearWork()">Cerrar</button>
+        <button *ngIf="action == 1" type="button" class="btn btn-primary" (click)="addWork()">Agregar</button>
+        <button *ngIf="action == 2" type="button" class="btn btn-primary" (click)="editWork()">Editar</button>
       </div>
     </div>
   </div>

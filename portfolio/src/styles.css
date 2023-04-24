@@ -12,3 +12,8 @@
     color: grey;
     font-size: small;
 }
+
+.delete-btn{
+    position: absolute;
+    border-color: black;
+}

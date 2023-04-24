@@ -12,6 +12,8 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { WorkComponent } from './components/work/work.component';
 import { LoginComponent } from './components/login/login.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { ContactComponent } from './components/contact/contact.component';
     ContactComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

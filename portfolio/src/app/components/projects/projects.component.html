@@ -1,32 +1,38 @@
 <div id="Projects" class="proyectos">
     <div class="Titulo fs-3 mt-3">
         <div class="d-inline-flex">
-          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editProjectPanel" style="display: block;">
+          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editProjectPanel" (click)="changeAction(2)" style="display: block;">
             <i class="fa fa-pen"></i>
           </a>
         </div>
         PROYECTOS
         <div class="d-inline-flex">
-          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editProjectPanel" style="display: block;">
+          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editProjectPanel" (click)="changeAction(1)" style="display: block;">
             <i class="fa fa-plus"></i>
           </a>
         </div>
     </div>
     <div class="card">
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+
             <div class="carousel-indicators">
-              <div *ngFor="let project of projectsList; index as i">
+
+              <div *ngFor="let project of projectList; index as i">
                 <div *ngIf="i==0; else elseBlock">
                   <button type="button" data-bs-target="#carouselExampleCaptions" [attr.data-bs-slide-to]="i" class="active" aria-current="true" aria-label="Slide"></button>
                 </div>
+
                 <ng-template #elseBlock>
                   <button type="button" data-bs-target="#carouselExampleCaptions" [attr.data-bs-slide-to]="i" aria-label="Slide"></button>
                 </ng-template>
-                
+
               </div>
             </div>
+
             <div class="carousel-inner">
-              <div *ngFor="let project of projectsList;index as i">
+
+              <div *ngFor="let project of projectList;index as i">
+
                 <div *ngIf="i == 0;else elseBlock">
                   <div class="carousel-item active" data-bs-interval="3000">
                     <img src="{{project.foto}}" 
@@ -34,9 +40,11 @@
                     <div class="carousel-caption d-none d-md-block">
                       <h5>{{project.nombre}}</h5>
                       <p>{{project.descripcion}}</p>
+                      <a class="btn-right" style="display: block;" (click)="delProject(project.id)" style="color: red;"><i class="fa fa-trash"></i></a>
                     </div>
                   </div>
                 </div>
+                
                 <ng-template #elseBlock>
                   <div class="carousel-item" data-bs-interval="3000">
                     <img src="{{project.foto}}" 
@@ -44,60 +52,84 @@
                     <div class="carousel-caption d-none d-md-block">
                       <h5>{{project.nombre}}</h5>
                       <p>{{project.descripcion}}</p>
+                      <a class="btn-right" style="display: block;" (click)="delProject(project.id)" style="color: red;"><i class="fa fa-trash"></i></a>
                     </div>
                   </div>
                 </ng-template>
+
               </div>
+
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
+
+            <div *ngIf="projectList.length > 0">
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+
           </div>
     </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="editProjectPanel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editProjectPanel" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+      
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Añadir Proyecto</h5>
+        <h5 *ngIf="action == 1" class="modal-title">Añadir Proyecto</h5>
+        <h5 *ngIf="action == 2" class="modal-title">Editar Proyecto</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="photo">
-        <div class="nombre p-3">
-          <form class="form-floating">
-            <input type="email" class="form-control" placeholder="pepito" [attr.value]="">
-            <label>URL de la Foto</label>
-          </form>
+
+      <div class="modal-body">
+
+        <div *ngIf="action == 2" class="seleccion p-3">
+          <select id="selectProject" #selectProject class="form-select form-select-sm" aria-label=".form-select-sm example" (click)="selectedMenu(selectProject.value)">
+            <option value = "-1" selected>Seleccionar Proyecto</option>
+            <option *ngFor="let option of projectList; index as i" type="number" value="{{i}}">{{option.nombre}}</option>
+          </select>
         </div>
-      </div>
-      <div class="name">
-        <div class="nombre p-3">
-          <form class="form-floating">
-            <input type="email" class="form-control" placeholder="pepito" [attr.value]="">
-            <label>Nombre del Proyecto</label>
-          </form>
+
+        <div class="photo">
+          <div class="nombre p-3">
+            <div class="form-floating">
+              <input type="email" class="form-control" placeholder="pepito" [(ngModel)]="Project.foto">
+              <label>URL de la Foto</label>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="description">
-        <div class="modal-body">
+  
+        <div class="name">
+          <div class="nombre p-3">
+            <div class="form-floating">
+              <input type="email" class="form-control" placeholder="pepito" [(ngModel)]="Project.nombre">
+              <label>Nombre del Proyecto</label>
+            </div>
+          </div>
+        </div>
+  
+        <div class="description p-3">
           <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" [(ngModel)]="Project.descripcion"
             ></textarea>
             <label for="floatingTextarea2">Descripcion</label>
           </div>
         </div>
+
       </div>
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" onclick="addEducation()">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
+        <button *ngIf="action == 1" type="button" class="btn btn-primary" (click)="addProject()">Agregar</button>
+        <button *ngIf="action == 2" type="button" class="btn btn-primary" (click)="editProject()">Editar</button>
       </div>
+
     </div>
   </div>
 </div>

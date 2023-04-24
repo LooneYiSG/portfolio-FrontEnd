@@ -7,8 +7,10 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
-    openLogin(): void{
-      console.log('open login')
-    }
+  userLoginOn: boolean = false;
+
+  openLogin(): void{
+    console.log('open login')
+  }
 
 }
