@@ -17,3 +17,11 @@
     position: absolute;
     border-color: black;
 }
+
+.ng-valid:not(form).ng-touched{
+    border-left: 5px solid green;
+}
+
+.ng-invalid:not(form).ng-touched{
+    border-left: 5px solid red;
+}

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Educacion } from 'src/app/entities/educacion';
+import { LoginService } from 'src/app/services/auth/login.service';
 import { EducationService } from 'src/app/services/education.service';
 
 @Component({
@@ -9,8 +10,9 @@ import { EducationService } from 'src/app/services/education.service';
   styleUrls: ['./education.component.css']
 })
 
-export class EducationComponent implements OnInit {
+export class EducationComponent implements OnInit, OnDestroy {
   
+  userLoginOn: boolean = false;
   option: number = -1;
   action: number = -1;
   eduList: Educacion[] = [];
@@ -23,10 +25,27 @@ export class EducationComponent implements OnInit {
     foto: ""
   }
 
-  constructor(private EducationService:EducationService){}
+  educationForm = this.formBuilder.group({
+    foto: ['',[Validators.required]],
+    institucion: ['', [Validators.required]],
+    fechai: ['', [Validators.required]],
+    fechae: ['', [Validators.required]],
+    descripcion: ['', [Validators.required]],
+  })
+
+  constructor(private EducationService:EducationService, private formBuilder: FormBuilder, private loginService: LoginService){}
+
+  ngOnDestroy(): void {
+    this.loginService.currentUserLoginOn.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.getInstitutionList();
+    this.loginService.currentUserLoginOn.subscribe({
+      next:(userLoginOn) => {
+        this.userLoginOn=userLoginOn;
+      }
+    });
   }
 
   getInstitutionList(): void{
@@ -34,8 +53,16 @@ export class EducationComponent implements OnInit {
   }
 
   addInstitution(): void{
-    this.EducationService.addEducation(this.Institution as Educacion).subscribe();
-    setTimeout(() => {this.getInstitutionList();},100);
+    if(this.educationForm.valid){
+      this.EducationService.addEducation(this.Institution as Educacion).subscribe((institucion: Educacion) =>{
+        this.eduList.push(institucion);
+        document.getElementById("close_FormEducation")?.click();
+        this.educationForm.reset();
+      });
+    }else{
+      this.educationForm.markAllAsTouched();
+    }
+    
   }
 
   deleteInstitution(id:number): void{
@@ -44,8 +71,17 @@ export class EducationComponent implements OnInit {
   }
 
   editInstitution(): void{
-    this.addInstitution();
-    console.log("EDITASTE:" + this.Institution);
+    if(this.educationForm.valid){
+      this.EducationService.editEducation(this.Institution as Educacion).subscribe(() =>{
+        this.getInstitutionList();
+        document.getElementById("close_FormEducation")?.click();
+        this.educationForm.reset();
+      });
+      console.log("EDITASTE:" + this.Institution);
+    }else{
+      this.educationForm.markAllAsTouched();
+    }
+    
   }
 
   selectedMenu(valor:string){
@@ -71,6 +107,22 @@ export class EducationComponent implements OnInit {
   changeAction(action: number){
     this.clearInstitution();
     this.action = action;
+  }
+
+  get foto(){
+    return this.educationForm.controls.foto;
+  }
+  get institucion(){
+    return this.educationForm.controls.institucion;
+  }
+  get fechai(){
+    return this.educationForm.controls.fechai;
+  }
+  get fechae(){
+    return this.educationForm.controls.fechae;
+  }
+  get descripcion(){
+    return this.educationForm.controls.descripcion;
   }
 
 }

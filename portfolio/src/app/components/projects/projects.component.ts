@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Proyecto } from 'src/app/entities/proyecto';
+import { LoginService } from 'src/app/services/auth/login.service';
 import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
@@ -7,8 +8,9 @@ import { ProjectService } from 'src/app/services/project.service';
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
 
+  userLoginOn: boolean = false;
   option: number = -1;
   action: number = -1;
   projectList: Proyecto[] = [];
@@ -19,10 +21,19 @@ export class ProjectsComponent implements OnInit {
     foto: "",
   }
 
-  constructor(private ProjectService: ProjectService){}
+  constructor(private ProjectService: ProjectService, private loginService: LoginService){}
+
+  ngOnDestroy(): void {
+    this.loginService.currentUserLoginOn.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.getProjectList();
+    this.loginService.currentUserLoginOn.subscribe({
+      next:(userLoginOn) => {
+        this.userLoginOn=userLoginOn;
+      }
+    });
   }
 
   getProjectList(): void {
@@ -30,8 +41,9 @@ export class ProjectsComponent implements OnInit {
   }
 
   addProject():void {
-    this.ProjectService.addProject(this.Project as Proyecto).subscribe();
-    setTimeout(() => {this.getProjectList();},100);
+    this.ProjectService.addProject(this.Project as Proyecto).subscribe((project: Proyecto) =>{
+      this.projectList.push(project);
+    });
   }
 
   delProject(id: number):void {
@@ -40,7 +52,9 @@ export class ProjectsComponent implements OnInit {
   }
 
   editProject():void {
-    this.addProject();
+    this.ProjectService.editProject(this.Project as Proyecto).subscribe(() =>{
+      this.getProjectList();
+    });
     console.log("Editaste:" + this.Project);
   }
 

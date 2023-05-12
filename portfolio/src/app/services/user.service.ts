@@ -1,16 +1,21 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../entities/usuario';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private userURL = 'http://localhost:8080/api/list/user';
+  private userURL = 'http://localhost:8080/api/';
 
   constructor(private http: HttpClient) { }
+
+  private httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
 
 /**
  * Handle Http operation that failed.
@@ -34,8 +39,15 @@ private handleError<T>(operation = 'operation', result?: T) {
 }
 
   getUserList():Observable<Usuario[]>{
-    return this.http.get<Usuario[]>(this.userURL).pipe(
+    return this.http.get<Usuario[]>(this.userURL+"list/user").pipe(
       catchError(this.handleError<Usuario[]>('getUserList', []))
+    );
+  }
+
+  editUser(User: Usuario){
+    return this.http.put<Usuario>(this.userURL + "modify/user", User, this.httpOptions).pipe(
+      tap((user: Usuario) => console.log(user.nombre)),
+      catchError(this.handleError<Usuario>('editUser'))
     );
   }
 

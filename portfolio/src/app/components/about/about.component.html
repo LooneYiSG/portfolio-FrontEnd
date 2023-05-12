@@ -1,7 +1,7 @@
 <div class="about">
     <div class="card mb-3" >
       <div class="d-flex justify-content-end">
-        <a type="button" class="btn-right" data-bs-toggle="modal" data-bs-target="#editAboutPanel" style="display: block;">
+        <a *ngIf="userLoginOn" type="button" class="btn-right" data-bs-toggle="modal" data-bs-target="#editAboutPanel" style="display: block;">
           <i class="fa fa-pen fa-xl"></i>
         </a>
       </div>
@@ -15,7 +15,7 @@
           <div class="col-md-8">
             <div class="card-body">
                 <h5 class="card-title">{{Perfil.nombre}} {{Perfil.apellido}}</h5>
-                <p>{{Perfil.sobre_mi}}</p>
+                {{Perfil.sobre_mi}}
                 <!--<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
             </div>
           </div>
@@ -27,39 +27,80 @@
 <div class="modal fade" id="editAboutPanel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Editar Perfil</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="fotoPerfil ps-3 pe-3 pt-3">
-        <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupFile01">Foto</label>
-          <input type="file" class="form-control" id="inputGroupFile01">
-        </div>
-      </div>
-      <div class="nombre ps-3 pe-3">
-        <form class="form-floating d-inline-flex w-50 mb-3">
-          <input type="text" class="form-control" id="floatingInputValue" placeholder="pepito" [attr.value]="Perfil.nombre">
-          <label for="floatingInputValue">Nombre</label>
-        </form>
-        <form class="form-floating w-50">
-          <input type="text" class="form-control" id="floatingInputValue2" placeholder="pepito" [attr.value]="Perfil.apellido">
-          <label for="floatingInputValue2">Apellido</label>
-        </form>
-      </div>
-      <div class="sobreMi">
-        <div class="modal-body">
-          <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"
-            >{{Perfil.sobre_mi}}</textarea>
-            <label for="floatingTextarea2">Sobre mi</label>
+
+      <div class="modal-body" [formGroup]="aboutForm">
+        
+        <div class="photo">
+          <div class="fotoPerfil p-3">
+            <div class="form-floating">
+              <input formControlName="foto" type="text" #fotoi class="form-control" placeholder="pepito" [(ngModel)]="Perfil.foto">
+              <label>URL de la Foto</label>
+            </div>
+            
+            <div *ngIf="foto.invalid && (foto.dirty || foto.touched)" class="text-danger">
+              <div *ngIf="foto.errors?.['required']">
+                El link de la foto es requerido.
+              </div>
+            </div>
+
           </div>
         </div>
+        
+        <div class="name">
+          <div class="nombre ps-3 pe-3">
+            <div class="form-floating d-inline-flex w-50 mb-3">
+              <input formControlName="nombre" type="text" class="form-control" id="floatingInputValue" placeholder="pepito" [(ngModel)]="Perfil.nombre">
+              <label for="floatingInputValue">Nombre</label>
+            </div>
+            <div class="form-floating w-50">
+              <input formControlName="apellido" type="text" class="form-control" id="floatingInputValue2" placeholder="pepito" [(ngModel)]="Perfil.apellido">
+              <label for="floatingInputValue2">Apellido</label>
+            </div>
+
+            <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger">
+              <div *ngIf="nombre.errors?.['required']">
+                El nombre es requerido.
+              </div>
+            </div>
+
+            <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)" class="text-danger">
+              <div *ngIf="apellido.errors?.['required']">
+                El apellido es requerido.
+              </div>
+            </div>
+
+          </div>
+        </div>
+        
+        <div class="abouttext">
+          <div class="sobreMi p-3">
+            <div class="form-floating">
+              <textarea formControlName="descripcion" class="form-control" placeholder="Leave a comment here" style="height: 100px" [(ngModel)]="Perfil.sobre_mi" maxlength="255"
+              ></textarea>
+              <label for="floatingTextarea2">Sobre mi</label>
+            </div>
+
+            <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="text-danger">
+              <div *ngIf="descripcion.errors?.['required']">
+                La descripcion es requerida.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar</button>
+        <button id="close_FormAbout" type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="getUserList()">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="editUser()">Guardar</button>
       </div>
+
     </div>
   </div>
 </div>

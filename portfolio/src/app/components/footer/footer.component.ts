@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
 
+  inConstruction():void{
+    alert("Componente en construcción");
+  }
+
 }

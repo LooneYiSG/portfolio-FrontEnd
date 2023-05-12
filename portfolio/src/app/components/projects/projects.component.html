@@ -1,13 +1,13 @@
 <div id="Projects" class="proyectos">
     <div class="Titulo fs-3 mt-3">
         <div class="d-inline-flex">
-          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editProjectPanel" (click)="changeAction(2)" style="display: block;">
+          <a *ngIf="userLoginOn" class="btn-right" data-bs-toggle="modal" data-bs-target="#editProjectPanel" (click)="changeAction(2)" style="display: block;">
             <i class="fa fa-pen"></i>
           </a>
         </div>
         PROYECTOS
         <div class="d-inline-flex">
-          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editProjectPanel" (click)="changeAction(1)" style="display: block;">
+          <a *ngIf="userLoginOn" class="btn-right" data-bs-toggle="modal" data-bs-target="#editProjectPanel" (click)="changeAction(1)" style="display: block;">
             <i class="fa fa-plus"></i>
           </a>
         </div>
@@ -36,11 +36,11 @@
                 <div *ngIf="i == 0;else elseBlock">
                   <div class="carousel-item active" data-bs-interval="3000">
                     <img src="{{project.foto}}" 
-                    class="d-block w-100" alt="...">
+                    class="d-block w-100" alt="..." style="border-radius: 5px;">
                     <div class="carousel-caption d-none d-md-block">
                       <h5>{{project.nombre}}</h5>
                       <p>{{project.descripcion}}</p>
-                      <a class="btn-right" style="display: block;" (click)="delProject(project.id)" style="color: red;"><i class="fa fa-trash"></i></a>
+                      <a *ngIf="userLoginOn" class="btn-right" style="display: block;" (click)="delProject(project.id)" style="color: red;"><i class="fa fa-trash"></i></a>
                     </div>
                   </div>
                 </div>
@@ -48,11 +48,11 @@
                 <ng-template #elseBlock>
                   <div class="carousel-item" data-bs-interval="3000">
                     <img src="{{project.foto}}" 
-                    class="d-block w-100" alt="...">
+                    class="d-block w-100" alt="..." style="border-radius: 5px;">
                     <div class="carousel-caption d-none d-md-block">
                       <h5>{{project.nombre}}</h5>
                       <p>{{project.descripcion}}</p>
-                      <a class="btn-right" style="display: block;" (click)="delProject(project.id)" style="color: red;"><i class="fa fa-trash"></i></a>
+                      <a *ngIf="userLoginOn" class="btn-right" style="display: block;" (click)="delProject(project.id)" style="color: red;"><i class="fa fa-trash"></i></a>
                     </div>
                   </div>
                 </ng-template>

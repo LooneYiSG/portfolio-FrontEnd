@@ -1,13 +1,13 @@
 <div id="Skills" class="experience fs-3 fw-bold">
     <div class="Titulo mt-3">
       <div class="d-inline-flex">
-        <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editSkillPanel" (click)="changeAction(2)" style="display: block;">
+        <a *ngIf="userLoginOn" class="btn-right" data-bs-toggle="modal" data-bs-target="#editSkillPanel" (click)="changeAction(2)" style="display: block;">
           <i class="fa fa-pen"></i>
         </a>
       </div>
         HARD & SOFT SKILLS
         <div class="d-inline-flex">
-            <a id="expPlus" href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editSkillPanel" (click)="changeAction(1)" style="display: block;">
+            <a *ngIf="userLoginOn" class="btn-right" data-bs-toggle="modal" data-bs-target="#editSkillPanel" (click)="changeAction(1)" style="display: block;">
               <i class="fa fa-plus"></i>
             </a>
         </div>
@@ -15,7 +15,7 @@
     <div class="card">
         <div *ngFor="let skillType of skillsList; index as i">
               <div class="d-flex text-center fs-5 mb-2" style="background-color: whitesmoke; border-radius: 10px;">
-                <a class="btn-right" style="display: block;" (click)="delSkill(skillType.id)" style="color: red;"><i class="fa fa-trash"></i></a>
+                <a *ngIf="userLoginOn" class="btn-right" style="display: block;" (click)="delSkill(skillType.id)" style="color: red;"><i class="fa fa-trash"></i></a>
                 <div class="justify-content-center text-center" style="width: 100%;">
                   {{skillType.nombre}}
                 </div>
@@ -47,7 +47,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearSkill()"></button>
         </div>
 
-        <div class="modal-body">
+        <div class="modal-body" [formGroup]="skillForm">
 
           <div *ngIf="action == 2" class="seleccion p-3">
             <select id="selectSkill" #selectSkill class="form-select form-select-sm" aria-label=".form-select-sm example" (click)="selectedMenu(selectSkill.value)">
@@ -59,21 +59,36 @@
           <div class="skill">
             <div class="habilidad p-3">
               <div class="form-floating">
-                <input type="text" class="form-control" placeholder="pepito" [(ngModel)]="Skill.nombre">
+                <input formControlName="nombre" type="text" class="form-control" placeholder="pepito" [(ngModel)]="Skill.nombre">
                 <label>Habilidad</label>
               </div>
+
+              <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger">
+                <div *ngIf="nombre.errors?.['required']">
+                  El nombre de habilidad es requerido.
+                </div>
+              </div>
+
             </div>
           </div>
 
           <div class="know">
-            <div class="conocimiento p-3">
+            <div class="conocimiento p-3" formArrayName="conocimiento">
               <label>Conocimientos</label>
-              <div *ngFor="let conocimiento of Skill.conocimientos; index as i" class="form-floating mb-1">
-                <div class="input-group">
-                  <span class="input-group-text">{{i+1}}</span>
-                  <input type="text" aria-label="nombre" class="form-control" [(ngModel)]="conocimiento.nombre">
-                  <input type="text" aria-label="nivel" class="form-control" [(ngModel)]="conocimiento.nivel">
-                  <a type="button" class="btn btn-danger delete-btn" style="position: relative;" (click)="delRow(i)"><i class="fa fa-trash"></i></a>
+              <div *ngFor="let arrayForm of arrayControl.controls; index as i"  class="form-floating mb-1">
+                <div [formGroupName]="i">
+                  {{arrayForm.invalid}}
+                  <div class="input-group">
+                    <span class="input-group-text">{{i+1}}</span>
+                    <input formControlName="nombre" type="text" class="form-control" [(ngModel)]="Skill.conocimientos[i].nombre">
+                    <input formControlName="nivel" type="text" class="form-control" [(ngModel)]="Skill.conocimientos[i].nivel">
+                    <a type="button" class="btn btn-danger delete-btn" style="position: relative;" (click)="delRow(i)"><i class="fa fa-trash"></i></a>
+                  </div>
+                  <div *ngIf="arrayForm.value.nombre.invalid && (arrayForm.value.nombre.dirty || arrayForm.value.nombre.touched)" class="text-danger">
+                    <div *ngIf="arrayForm.value.nombre.errors?.['required']">
+                      El nombre del conocimiento es requerido.
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -82,14 +97,15 @@
                 <a id="kplus" class="btn-right" style="display: block;" (click)="addRow()"><i class="fa fa-circle-plus"></i></a>
               </div>
             </div>
+
           </div>
 
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearSkill()">Cerrar</button>
+          <button id="close_FormSkill" type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearSkill()">Cerrar</button>
           <button *ngIf="action == 1" type="submit" class="btn btn-primary" (click)="addSkill()">Agregar</button>
-          <button *ngIf="action == 2" type="submit" class="btn btn-primary" (click)="addSkill()">Editar</button>
+          <button *ngIf="action == 2" type="submit" class="btn btn-primary" (click)="editSkill()">Editar</button>
         </div>
 
       </div>

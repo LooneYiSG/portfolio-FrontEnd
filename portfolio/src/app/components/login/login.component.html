@@ -2,21 +2,47 @@
 <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
   <div class="offcanvas-header border fs-4">
     Login Panel
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <button #myModalClose type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <div class="offcanvas-body">
-    <form>
-        <div class="mb-2">
+  <div class="offcanvas-body pt-0">
+    <form [formGroup]="loginForm">
+
+        <div class="text-danger pt-1">{{loginError}}</div>
+
+        <div class="mb-0 pt-1">
           <label for="exampleInputEmail1" class="form-label">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+
+          <div *ngIf="email.invalid && (email.dirty || email.touched)"
+            class="text-danger">
+            <div *ngIf="email.errors?.['required']">
+              El Email es requerido.
+            </div>
+            <div *ngIf="email.errors?.['email']">
+              El Email debe tener un formato valido.
+            </div>
+          </div>
         </div>
-        <div class="mb-2">
+
+        <div class="mb-0">
           <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1">
+          <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1">
+          <div *ngIf="password.invalid && (password.dirty || password.touched)"
+            class="text-danger">
+            <div *ngIf="password.errors?.['required']">
+              El Password es requerido.
+            </div>
+            <div *ngIf="password.errors?.['password']">
+              El Password debe tener un formato valido.
+            </div>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="submit" class="btn btn-primary m-3">Register</button>
+
+        <div class="mt-2">
+          <button type="submit" class="btn btn-primary" (click)="login()">Iniciar Sesion</button>
+          <button type="submit" class="btn btn-primary ms-3">Register</button>
+        </div>
+
       </form>
   </div>
 </div>

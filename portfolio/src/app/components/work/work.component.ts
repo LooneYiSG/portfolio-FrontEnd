@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ExpLaboral } from 'src/app/entities/exp-laboral';
+import { LoginService } from 'src/app/services/auth/login.service';
 import { WorkService } from 'src/app/services/work.service';
 
 @Component({
@@ -7,8 +9,9 @@ import { WorkService } from 'src/app/services/work.service';
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.css']
 })
-export class WorkComponent implements OnInit {
+export class WorkComponent implements OnInit, OnDestroy {
   
+  userLoginOn: boolean = false;
   option: number = -1;
   action: number = -1;
   workList: ExpLaboral[] = [];
@@ -21,10 +24,27 @@ export class WorkComponent implements OnInit {
     descripcion: ""
   }
 
-  constructor(private WorkService: WorkService){}
+  workForm = this.formBuilder.group({
+    institucion: ['', [Validators.required]],
+    cargo: ['', [Validators.required]],
+    fechad: ['', [Validators.required]],
+    fechah: ['', [Validators.required]],
+    descripcion: ['', [Validators.required]],
+  })
+
+  constructor(private WorkService: WorkService, private formBuilder: FormBuilder, private loginService: LoginService){}
+
+  ngOnDestroy(): void {
+    this.loginService.currentUserLoginOn.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.getWorkList();
+    this.loginService.currentUserLoginOn.subscribe({
+      next:(userLoginOn) => {
+        this.userLoginOn=userLoginOn;
+      }
+    });
   }
 
   getWorkList():void{
@@ -32,8 +52,15 @@ export class WorkComponent implements OnInit {
   }
 
   addWork(): void{
-    this.WorkService.addWork(this.Work as ExpLaboral).subscribe();
-    setTimeout(() => {this.getWorkList();},100);
+    if(this.workForm.valid){
+      this.WorkService.addWork(this.Work as ExpLaboral).subscribe((work: ExpLaboral) =>{
+        this.workList.push(work);
+        document.getElementById("close_FormWork")?.click();
+        this.workForm.reset();
+      });
+    }else{
+      this.workForm.markAllAsTouched();
+    }
   }
 
   deleteWork(id: number){
@@ -42,8 +69,16 @@ export class WorkComponent implements OnInit {
   }
 
   editWork(): void{
-    this.addWork();
-    console.log("EDITASTE:" + this.Work);
+    if(this.workForm.valid){
+      this.WorkService.editWork(this.Work as ExpLaboral).subscribe(() =>{
+        this.getWorkList();
+        document.getElementById("close_FormWork")?.click();
+        this.workForm.reset();
+      });
+      console.log("EDITASTE:" + this.Work);
+    }else{
+      this.workForm.markAllAsTouched();
+    }
   }
 
   selectedMenu(valor:string){
@@ -69,6 +104,22 @@ export class WorkComponent implements OnInit {
   changeAction(action: number){
     this.clearWork();
     this.action = action;
+  }
+
+  get institucion(){
+    return this.workForm.controls.institucion;
+  }
+  get cargo(){
+    return this.workForm.controls.cargo;
+  }
+  get fechad(){
+    return this.workForm.controls.fechad;
+  }
+  get fechah(){
+    return this.workForm.controls.fechah;
+  }
+  get descripcion(){
+    return this.workForm.controls.descripcion;
   }
 
 }

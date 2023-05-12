@@ -1,13 +1,13 @@
 <div id="Education" class="education fs-3">
     <div class="Titulo">
         <div class="d-inline-flex">
-          <a class="btn-right" data-bs-toggle="modal" data-bs-target="#modaPanel" style="display: block;" (click)="changeAction(2)">
+          <a *ngIf="userLoginOn" class="btn-right" data-bs-toggle="modal" data-bs-target="#modaPanel" style="display: block;" (click)="changeAction(2)">
             <i class="fa fa-pen"></i>
           </a>
         </div>
         EDUCACIÓN
         <div class="d-inline-flex">
-          <a class="btn-right" data-bs-toggle="modal" data-bs-target="#modaPanel" style="display: block;" (click)="changeAction(1)">
+          <a *ngIf="userLoginOn" class="btn-right" data-bs-toggle="modal" data-bs-target="#modaPanel" style="display: block;" (click)="changeAction(1)">
             <i class="fa fa-plus"></i>
           </a>
         </div>
@@ -16,7 +16,7 @@
       <div class="col" *ngFor="let educations of eduList">
         <div class="card">
           <div class="d-flex justify-content-end">
-            <a type="button" class="btn btn-danger delete-btn" (click)="deleteInstitution(educations.id)"><i class="fa fa-trash"></i></a>
+            <a *ngIf="userLoginOn" type="button" class="btn btn-danger delete-btn" (click)="deleteInstitution(educations.id)"><i class="fa fa-trash"></i></a>
           </div>
           <img src="{{educations.foto}}" 
           class="card-img-top" alt="...">
@@ -40,7 +40,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearInstitution()"></button>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body" [formGroup]="educationForm">
 
         <div *ngIf="action == 2" class="seleccion p-3">
           <select id="selectEdu" #selectEdu class="form-select form-select-sm" aria-label=".form-select-sm example" (click)="selectedMenu(selectEdu.value)">
@@ -52,18 +52,32 @@
         <div class="photo">
           <div class="nombre p-3">
             <div class="form-floating">
-              <input type="text" #fotoi class="form-control" placeholder="pepito" [(ngModel)]="Institution.foto">
+              <input formControlName="foto" type="text" #fotoi class="form-control" placeholder="pepito" [(ngModel)]="Institution.foto">
               <label>URL de la Foto</label>
             </div>
+
+            <div *ngIf="foto.invalid && (foto.dirty || foto.touched)" class="text-danger">
+              <div *ngIf="foto.errors?.['required']">
+                El link de la foto es requerido.
+              </div>
+            </div>
+
           </div>
         </div>
 
         <div class="name">
           <div class="nombre p-3">
             <div class="form-floating">
-              <input type="text" class="form-control" placeholder="pepito" [(ngModel)]="Institution.institucion">
+              <input formControlName="institucion" type="text" class="form-control" placeholder="pepito" [(ngModel)]="Institution.institucion">
               <label for="namei">Nombre de la Institucion</label>
             </div>
+
+            <div *ngIf="institucion.invalid && (institucion.dirty || institucion.touched)" class="text-danger">
+              <div *ngIf="institucion.errors?.['required']">
+                El nombre de la institucion es requerido.
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -71,31 +85,52 @@
           <div class="fechas p-3">
             <div class="ingreso me-5 d-inline-flex">
               <div class="form-floating">
-                <input type="date" class="form-control" name="ingreso" [(ngModel)]="Institution.fecha_ingreso">
+                <input formControlName="fechai" type="date" class="form-control" name="ingreso" [(ngModel)]="Institution.fecha_ingreso">
                 <label for="fechai">Fecha de ingreso</label>
               </div>
+
+              <div *ngIf="fechai.invalid && (fechai.dirty || fechai.touched)" class="text-danger">
+                <div *ngIf="fechai.errors?.['required']">
+                  La fecha de ingreso es requerida.
+                </div>
+              </div>
+
             </div>
             <div class="egreso d-inline-flex">
               <div class="form-floating">
-                <input type="date" class="form-control" name="egreso" [(ngModel)]="Institution.fecha_egreso">
+                <input formControlName="fechae" type="date" class="form-control" name="egreso" [(ngModel)]="Institution.fecha_egreso">
                 <label for="fechae">Fecha de egreso</label>
               </div>
+
+              <div *ngIf="fechae.invalid && (fechae.dirty || fechae.touched)" class="text-danger">
+                <div *ngIf="fechae.errors?.['required']">
+                  La fecha de egreso es requerida.
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
 
         <div class="description">
             <div class="form-floating">
-              <textarea class="form-control" placeholder="Leave a comment here"  style="height: 100px" [(ngModel)]="Institution.descripcion"
+              <textarea formControlName="descripcion" class="form-control" placeholder="Leave a comment here"  style="height: 100px" [(ngModel)]="Institution.descripcion"
               ></textarea>
               <label for="desci">Descripcion</label>
             </div>
+
+            <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="text-danger">
+              <div *ngIf="descripcion.errors?.['required']">
+                La descripcion es requerida.
+              </div>
+            </div>
+
         </div>
 
       </div>  
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearInstitution()">Cerrar</button>
+        <button id="close_FormEducation" type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearInstitution()">Cerrar</button>
         <button *ngIf="action == 1" type="button" class="btn btn-primary" (click)="addInstitution()">Agregar</button>
         <button *ngIf="action == 2" type="button" class="btn btn-primary" (click)="editInstitution()">Editar</button>
       </div>

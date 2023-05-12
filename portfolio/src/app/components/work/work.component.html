@@ -1,13 +1,13 @@
 <div id="Exp" class="experienciaLaboral">
     <div class="Titulo fs-3 mt-3">
       <div class="d-inline-flex">
-        <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editWorkPanel" style="display: block;" (click)="changeAction(2)">
+        <a *ngIf="userLoginOn" class="btn-right" data-bs-toggle="modal" data-bs-target="#editWorkPanel" style="display: block;" (click)="changeAction(2)">
           <i class="fa fa-pen"></i>
         </a>
       </div>
         EXPERIENCIA LABORAL
         <div class="d-inline-flex">
-          <a href="#" class="btn-right" data-bs-toggle="modal" data-bs-target="#editWorkPanel" style="display: block;" (click)="changeAction(1)">
+          <a *ngIf="userLoginOn" class="btn-right" data-bs-toggle="modal" data-bs-target="#editWorkPanel" style="display: block;" (click)="changeAction(1)">
             <i class="fa fa-plus"></i>
           </a>
         </div>
@@ -17,7 +17,7 @@
             <div class="accordion-item" *ngFor="let works of workList; index as i">
               <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#panelsStayOpen-collapseOne'+i" aria-expanded="false" aria-controls="'panelsStayOpen-collapseOne'">
-                  <a type="button" class="btn btn-danger delete-btn" style="position: relative;" (click)="deleteWork(works.id)"><i class="fa fa-trash"></i></a>  
+                  <a *ngIf="userLoginOn" type="button" class="btn btn-danger delete-btn me-2" style="position: relative;" (click)="deleteWork(works.id)"><i class="fa fa-trash"></i></a>  
                   {{works.institucion}} - {{works.cargo}}
                     <div class="fecha ms-3">{{works.fecha_desde}} - {{works.fecha_hasta}}</div>
                 </button>
@@ -43,7 +43,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body" [formGroup]="workForm">
 
         <div *ngIf="action == 2" class="seleccion p-3">
           <select id="selectWork" #selectWork class="form-select form-select-sm" aria-label=".form-select-sm example" (click)="selectedMenu(selectWork.value)">
@@ -55,18 +55,32 @@
         <div class="institucion">
           <div class="nombre p-3">
             <div class="form-floating">
-              <input type="text" class="form-control" placeholder="pepito" [(ngModel)]="Work.institucion">
+              <input formControlName="institucion" type="text" class="form-control" placeholder="pepito" [(ngModel)]="Work.institucion">
               <label>Institucion</label>
             </div>
+
+            <div *ngIf="institucion.invalid && (institucion.dirty || institucion.touched)" class="text-danger">
+              <div *ngIf="institucion.errors?.['required']">
+                El nombre de la institucion es requerido.
+              </div>
+            </div>
+
           </div>
         </div>
 
         <div class="titulo">
           <div class="nombre p-3">
             <div class="form-floating">
-              <input type="text" class="form-control" placeholder="pepito" [(ngModel)]="Work.cargo">
+              <input formControlName="cargo" type="text" class="form-control" placeholder="pepito" [(ngModel)]="Work.cargo">
               <label>Cargo laboral</label>
             </div>
+
+            <div *ngIf="cargo.invalid && (cargo.dirty || cargo.touched)" class="text-danger">
+              <div *ngIf="cargo.errors?.['required']">
+                El cargo es requerido.
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -74,15 +88,29 @@
           <div class="fechas p-3">
             <div class="ingreso me-5 d-inline-flex">
               <div class="form-floating">
-                <input type="date" class="form-control" [(ngModel)]="Work.fecha_desde">
+                <input formControlName="fechad" type="date" class="form-control" [(ngModel)]="Work.fecha_desde">
                 <label>Fecha de desde</label>
               </div>
+
+              <div *ngIf="fechad.invalid && (fechad.dirty || fechad.touched)" class="text-danger">
+                <div *ngIf="fechad.errors?.['required']">
+                  La fecha de comienzo es requerida.
+                </div>
+              </div>
+
             </div>
             <div class="egreso d-inline-flex">
               <div class="form-floating">
-                <input type="date" class="form-control" [(ngModel)]="Work.fecha_hasta">
+                <input formControlName="fechah" type="date" class="form-control" [(ngModel)]="Work.fecha_hasta">
                 <label>Fecha de hasta</label>
               </div>
+
+              <div *ngIf="fechah.invalid && (fechah.dirty || fechah.touched)" class="text-danger">
+                <div *ngIf="fechah.errors?.['required']">
+                  La fecha de finalizacion es requerida.
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -90,17 +118,24 @@
         <div class="description">
             <div class="descripcion p-3">
               <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" id="descw" style="height: 100px" [(ngModel)]="Work.descripcion"
+                <textarea formControlName="descripcion" class="form-control" placeholder="Leave a comment here" id="descw" style="height: 100px" [(ngModel)]="Work.descripcion"
                 ></textarea>
                 <label for="descw">Descripcion</label>
               </div>
+
+              <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="text-danger">
+                <div *ngIf="descripcion.errors?.['required']">
+                  La descripcion es requerida.
+                </div>
+              </div>
+
             </div>
         </div>
 
       </div>
       
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearWork()">Cerrar</button>
+        <button id="close_FormWork" type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearWork()">Cerrar</button>
         <button *ngIf="action == 1" type="button" class="btn btn-primary" (click)="addWork()">Agregar</button>
         <button *ngIf="action == 2" type="button" class="btn btn-primary" (click)="editWork()">Editar</button>
       </div>

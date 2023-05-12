@@ -8,7 +8,7 @@
                       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
                           <button *ngIf="!userLoginOn" class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" (click)="openLogin()">Login</button>
-                          <button *ngIf="userLoginOn" class="nav-link" (click)="openLogin()">Logout</button>
+                          <button *ngIf="userLoginOn" class="nav-link" (click)="logout()">Logout</button>
                           <a class="nav-link" href="#Education">Educacion</a>
                           <a class="nav-link" href="#Exp">Experiencia</a>
                           <a class="nav-link" href="#Skills">Skills</a>
