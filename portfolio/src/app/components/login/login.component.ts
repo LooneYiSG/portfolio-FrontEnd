@@ -77,4 +77,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
 
+  inConstruction():void{
+    alert("Componente en construcción");
+  }
+
 }

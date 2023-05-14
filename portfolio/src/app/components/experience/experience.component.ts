@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Conocimiento } from 'src/app/entities/conocimiento';
 import { Habilidad } from 'src/app/entities/habilidad';
 import { LoginService } from 'src/app/services/auth/login.service';
@@ -22,16 +22,9 @@ export class ExperienceComponent implements OnInit, OnDestroy {
     conocimientos: []
   }
 
-  //knowForm: FormArray = this.formBuilder.array([],Validators.compose([Validators.required, Validators.minLength(1)]));
   skillForm = this.formBuilder.group({
-    nombre: new FormControl(['', [Validators.required]]),
-    conocimiento: this.formBuilder.array([])
+    nombre: ['', [Validators.required]],
   })
-
-  private conocimientoForm =  this.formBuilder.group({
-      nombre: new FormControl(['',[Validators.required]]),
-      nivel: new FormControl(['',[Validators.required]]),
-    });
 
   constructor(private SkillService: SkillService, private formBuilder: FormBuilder, private loginService: LoginService){}
 
@@ -86,17 +79,14 @@ export class ExperienceComponent implements OnInit, OnDestroy {
   addRow(){
     const conocimiento:Conocimiento = {
       id: this.Skill.conocimientos.length+1,
-      nombre: "New row "+(this.Skill.conocimientos.length+1),
+      nombre: "New row",
       nivel: "0",
     }
     this.Skill.conocimientos.push(conocimiento);
-    this.arrayControl.push(this.conocimientoForm)
   }
 
   delRow(index:number){
     this.Skill.conocimientos.splice(index,1);
-    this.arrayControl.clear();
-    this.Skill.conocimientos.forEach(() => this.arrayControl.push(this.conocimientoForm));
   }
 
   selectedMenu(valor:string){
@@ -111,8 +101,10 @@ export class ExperienceComponent implements OnInit, OnDestroy {
     this.Skill.id = 0;
     this.Skill.nombre = "";
     this.Skill.conocimientos = [];
-    this.arrayControl.clear();
+    this.option = -1;
+    this.action = -1;
     this.skillForm.reset();
+    console.log("Se acaba de limpiar la habilidad");
   }
 
   changeAction(action: number){
@@ -122,9 +114,6 @@ export class ExperienceComponent implements OnInit, OnDestroy {
 
   get nombre(){
     return this.skillForm.controls.nombre;
-  }
-  get arrayControl(){
-    return this.skillForm.controls.conocimiento as FormArray;
   }
 
 }

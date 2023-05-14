@@ -101,6 +101,7 @@ export class EducationComponent implements OnInit, OnDestroy {
     this.Institution.foto = "";
     this.option = -1;
     this.action = -1;
+    this.educationForm.reset();
     console.log("Se acaba de limpiar la institucion");
   }
 

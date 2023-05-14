@@ -87,7 +87,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body" [formGroup]="projectForm">
 
         <div *ngIf="action == 2" class="seleccion p-3">
           <select id="selectProject" #selectProject class="form-select form-select-sm" aria-label=".form-select-sm example" (click)="selectedMenu(selectProject.value)">
@@ -99,33 +99,54 @@
         <div class="photo">
           <div class="nombre p-3">
             <div class="form-floating">
-              <input type="email" class="form-control" placeholder="pepito" [(ngModel)]="Project.foto">
+              <input formControlName="foto" type="text" class="form-control" placeholder="pepito" [(ngModel)]="Project.foto">
               <label>URL de la Foto</label>
             </div>
+
+            <div *ngIf="foto.invalid && (foto.dirty || foto.touched)" class="text-danger">
+              <div *ngIf="foto.errors?.['required']">
+                La foto del proyecto es requerida.
+              </div>
+            </div>
+
           </div>
         </div>
   
         <div class="name">
           <div class="nombre p-3">
             <div class="form-floating">
-              <input type="email" class="form-control" placeholder="pepito" [(ngModel)]="Project.nombre">
+              <input formControlName="nombre" type="text" class="form-control" placeholder="pepito" [(ngModel)]="Project.nombre">
               <label>Nombre del Proyecto</label>
             </div>
+
+            <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger">
+              <div *ngIf="nombre.errors?.['required']">
+                El nombre del proyecto es requerido.
+              </div>
+            </div>
+
           </div>
         </div>
   
         <div class="description p-3">
           <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" [(ngModel)]="Project.descripcion"
+            <textarea formControlName="descripcion" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" [(ngModel)]="Project.descripcion"
             ></textarea>
             <label for="floatingTextarea2">Descripcion</label>
           </div>
+
+          <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="text-danger">
+            <div *ngIf="descripcion.errors?.['required']">
+              La descripcion del proyecto es requerida.
+            </div>
+          </div>
+
         </div>
 
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
+        <button id="close_FormProject" type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clearProject()">Cerrar</button>
         <button *ngIf="action == 1" type="button" class="btn btn-primary" (click)="addProject()">Agregar</button>
         <button *ngIf="action == 2" type="button" class="btn btn-primary" (click)="editProject()">Editar</button>
       </div>

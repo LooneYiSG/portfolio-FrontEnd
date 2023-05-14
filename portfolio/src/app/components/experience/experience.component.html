@@ -47,7 +47,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearSkill()"></button>
         </div>
 
-        <div class="modal-body" [formGroup]="skillForm">
+        <div class="modal-body">
 
           <div *ngIf="action == 2" class="seleccion p-3">
             <select id="selectSkill" #selectSkill class="form-select form-select-sm" aria-label=".form-select-sm example" (click)="selectedMenu(selectSkill.value)">
@@ -56,7 +56,7 @@
             </select>
           </div>
 
-          <div class="skill">
+          <div class="skill" [formGroup]="skillForm">
             <div class="habilidad p-3">
               <div class="form-floating">
                 <input formControlName="nombre" type="text" class="form-control" placeholder="pepito" [(ngModel)]="Skill.nombre">
@@ -73,22 +73,14 @@
           </div>
 
           <div class="know">
-            <div class="conocimiento p-3" formArrayName="conocimiento">
+            <div class="conocimiento p-3">
               <label>Conocimientos</label>
-              <div *ngFor="let arrayForm of arrayControl.controls; index as i"  class="form-floating mb-1">
-                <div [formGroupName]="i">
-                  {{arrayForm.invalid}}
-                  <div class="input-group">
-                    <span class="input-group-text">{{i+1}}</span>
-                    <input formControlName="nombre" type="text" class="form-control" [(ngModel)]="Skill.conocimientos[i].nombre">
-                    <input formControlName="nivel" type="text" class="form-control" [(ngModel)]="Skill.conocimientos[i].nivel">
-                    <a type="button" class="btn btn-danger delete-btn" style="position: relative;" (click)="delRow(i)"><i class="fa fa-trash"></i></a>
-                  </div>
-                  <div *ngIf="arrayForm.value.nombre.invalid && (arrayForm.value.nombre.dirty || arrayForm.value.nombre.touched)" class="text-danger">
-                    <div *ngIf="arrayForm.value.nombre.errors?.['required']">
-                      El nombre del conocimiento es requerido.
-                    </div>
-                  </div>
+              <div *ngFor="let conocimiento of Skill.conocimientos; index as i"  class="form-floating mb-1">
+                <div class="input-group">
+                  <span class="input-group-text">{{i+1}}</span> 
+                  <input type="text" class="form-control" [(ngModel)]="conocimiento.nombre">
+                  <input type="text" class="form-control" [(ngModel)]="conocimiento.nivel">
+                  <a type="button" class="btn btn-danger delete-btn" style="position: relative;" (click)="delRow(i)"><i class="fa fa-trash"></i></a>
                 </div>
               </div>
             </div>

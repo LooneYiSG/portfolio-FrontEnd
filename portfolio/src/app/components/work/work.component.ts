@@ -98,6 +98,7 @@ export class WorkComponent implements OnInit, OnDestroy {
     this.Work.descripcion = "";
     this.option = -1;
     this.action = -1;
+    this.workForm.reset();
     console.log("Se acaba de limpiar la institucion");
   }
 

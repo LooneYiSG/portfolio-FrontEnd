@@ -8,7 +8,7 @@ import { Observable, catchError, of, tap } from 'rxjs';
 })
 export class UserService {
 
-  private userURL = 'http://localhost:8080/api/';
+  private userURL = 'https://portfolio-backend-tgyh.onrender.com/api/';
 
   constructor(private http: HttpClient) { }
 

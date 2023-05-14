@@ -10,7 +10,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class WorkService {
 
   //workList: ExpLaboral[] = TRABAJOS;
-  private httpURL = 'http://localhost:8080/api/'
+  private httpURL = 'https://portfolio-backend-tgyh.onrender.com/api/'
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

@@ -12,7 +12,7 @@ export class LoginService {
   currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentUserData: BehaviorSubject<UsuarioI> = new BehaviorSubject<UsuarioI>({id:0, email:"",password:""});
 
-  private httpURL = 'http://localhost:8080/api/'
+  private httpURL = 'https://portfolio-backend-tgyh.onrender.com/api/'
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
